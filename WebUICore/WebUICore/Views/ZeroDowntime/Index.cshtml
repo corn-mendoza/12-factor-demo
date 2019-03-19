@@ -1,0 +1,70 @@
+﻿@using WebUICore.ViewModels;
+
+@model ServicesViewModel
+@{
+    ViewData["Title"] = "Zero Downtime";
+}
+<div class="panel-heading">
+    <div class="media">
+        <div class="media-body">
+            <h2 class="media-heading">Zero Downtime</h2>
+        </div>
+    </div>
+    <h3 class="lead">Blue/Green Application Deployments</h3>
+    <p>Deploy your application with no downtime and without impacting your customers.  Zero downtime Blue/Green application deployments are easy on PCF.  See how you can get your weekends back.</p>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <h4><font color="@ViewData["AppColor"]"><b>@Model.CloudFoundryApplication.ApplicationName</b></font></h4>
+        <h5>Instance Index: @Model.CloudFoundryApplication.Instance_Index</h5>
+        <h5>Instance IP: @Model.CloudFoundryApplication.InstanceIP</h5>
+        <h5>Instance ID: @Model.CloudFoundryApplication.InstanceId</h5>
+        <h5>Instance Port: @Model.CloudFoundryApplication.Port</h5>
+        <h5>URL</h5>
+        @foreach (var uri in Model.CloudFoundryApplication.Application_Uris)
+        {
+            <h6>@uri</h6>
+        }
+        <a class="btn btn-primary" asp-area="" asp-controller="ZeroDowntime" asp-action="Index">Refresh &raquo;</a>
+        <a class="btn btn-primary" asp-area="" asp-controller="ZeroDowntime" asp-action="ResetApplicationStats">Reset Stats &raquo;</a>
+    </div>
+</div>
+<div class="row">
+        @foreach (var _key in Model.AppInstanceCounts.Keys)
+        {
+            <div class="col-lg-2">
+                        <center>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="128" width="128" viewBox="0 0 128 128">
+                                <g>
+                                    <path id="path1" transform="rotate(0,64,64) translate(30,36.4802026748657) scale(2.125,2.125)  " fill="@ViewData["AppColor"]" d="M15.938026,10.979996L17.938026,10.979996 17.938026,22.074949 20.27599,19.736986 21.689991,21.150986 16.939991,25.900986 16.937481,25.898478 16.934973,25.900986 12.184973,21.150986 13.598972,19.736986 15.938026,22.07604z M19.872986,0C23.780029,3.6547317E-07,27.082031,3.0029921,27.082031,6.9920072L27.078979,6.9920072C29.837036,7.989017 32,10.459995 32,13.46201 32,17.064001 29.02301,19.956001 26.031006,19.956001L25.843018,19.956001 22.932983,19.956001 22.927002,17.962013 24.763,17.962013 25.09198,17.962013C28.083984,17.962013 29.986023,16.121008 29.986023,13.474004 29.986023,10.820011 27.90802,8.6839942 24.916016,8.6839942L24.916016,6.8720121C24.916016,4.5450153 22.775024,2.0010082 19.890015,2.001008 17.124023,2.0010082 14.588013,4.0000019 14.588013,6.9920072L12.40802,6.9920072C12.40802,6.9920072 12.393005,7.0170011 12.393005,7.0119962 12.002991,5.7040123 10.538025,4.9960045 9.072998,5.3590111 7.3599854,5.7800011 7.1000366,7.6300082 7.1170044,8.694004L6.9639893,8.6960182 6.9639893,8.7770118C3.9730225,8.7770118 2.0310059,10.833013 2.0310059,13.360997 2.0310059,15.882025 4.315979,17.933021 7.0579834,17.945015L10.947998,17.973 10.942017,19.956001 6.9639893,19.956001C2.9750366,19.821022 0,16.905004 0,13.359014 0,10.343998 2.1640015,7.8219943 5.1790161,7.0430021 5.5930176,5.1730065 6.776001,3.8529987 8.5440063,3.4180006 10.205994,3.007997 11.862,3.3909928 13.036987,4.3320026 14.215027,1.847993 16.906006,3.6547317E-07 19.872986,0z" />
+                                </g>
+                            </svg>
+                            @*<ej-circular-gauge id="CircularGauge@_key" is-responsive="true" load="loadGaugeTheme" background-color="transparent" radius="90" width="180" height="170">#2E8D59
+                                <e-circular-scale-collections>
+                                    <e-circular-scales radius="70" minimum="0" maximum="1000" major-interval-value="200" minor-interval-value="100" show-scale-bar="true" size="1" show-ranges="true">
+                                        <e-pointer-cap radius="10"></e-pointer-cap>
+                                        <e-circular-range-collections>
+                                            <e-circular-ranges size="5" distance-from-scale="-30" start-value="0" end-value="1000" background-color="@ViewData["AppColor"]"></e-circular-ranges>
+                                        </e-circular-range-collections>
+                                        <e-pointer-collections>
+                                            <e-pointers value="@Convert.ToDouble(Model.AppInstanceCounts.GetValueOrDefault(_key, 0));" length="60" width="8" show-back-needle="true" back-needle-length="15"></e-pointers>
+                                        </e-pointer-collections>
+                                    </e-circular-scales>
+                                </e-circular-scale-collections>
+                            </ej-circular-gauge>*@
+                            <h2>@Model.AppInstanceCounts.GetValueOrDefault(_key, 0)</h2>
+                            <h4><b>Instance @_key</b></h4>
+                        </center>
+             </div>
+        }
+</div>
+<div class="media-object"><hr /></div>
+<div class="row">
+    <div class="col-lg-12">
+        <h4>Instructions</h4>
+        <p class="panel-body">
+            To see Blue Green deployments demonstrated, push a second copy of this application using a different application name (i.e. <i>cf push workshopui-green</i>) and then map the route for this application to the newly pushed application.
+            If you use the word "green", "purple", "pink", "yellow", or "red", this application will change the color for the newly mapped application.  By default, the interface will display a "blue" color for highlights.
+        </p>
+    </div>
+</div>

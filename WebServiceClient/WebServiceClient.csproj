@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>FortuneServiceClient</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Pivotal.Discovery.ClientCore" Version="2.1.0" />
+    <PackageReference Include="Steeltoe.Security.DataProtection.CredHubCore" Version="2.1.0" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(BUILD)' == ''">
+    <!--<PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Version="2.0.0" />-->
+    <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsStreamCore" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(BUILD)' == 'LOCAL'">
+    <PackageReference Include="Steeltoe.CircuitBreaker.HystrixCore" Version="2.0.0-dev-00081" />
+    <PackageReference Include="Steeltoe.CircuitBreaker.Hystrix.MetricsEventsCore" Version="2.0.0-dev-00081" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Entity-Framework-Models\Workshop-Models-Core.csproj" />
+  </ItemGroup>
+</Project>

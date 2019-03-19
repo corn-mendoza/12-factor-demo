@@ -1,0 +1,104 @@
+﻿@using WebUICore.ViewModels;
+
+@model ServicesViewModel
+@{
+    ViewData["Title"] = "Services";
+}
+<script src="~/js/dist/Chart.js"></script>
+
+<div class="panel-heading">
+    <div class="media">
+        <div class="media-body">
+            <h2 class="media-heading">Cloud Patterns for .NET</h2>
+        </div>
+    </div>
+    <h3>Cloud Native Design Patterns using Spring Cloud Services and Steeltoe</h3>
+    <p>Designing applications to run natively in the cloud can be hard. Steeltoe can help developers quickly implement these design patterns by leveraging configuration services, service discovery, circuit breakers, and management services available in Spring Cloud Services.</p>
+</div>
+<div class="panel-primary" align="center">
+    <h3>Your New Fortune sent from the Fortune Service</h3>
+    <h4><i>@ViewData["MyFortune"]</i></h4>
+</div>
+<div class="media-object"><hr /></div>
+<div class="row">
+    <div class="col-md-5">
+        <h4><b>Service Information</b></h4>
+        <h5>Responding Fortune Service instance: <b>@ViewData["FortuneIndex"]</b></h5>
+        <h5><b>Requested service endpoint sent to discovery service</b></h5>
+        <h5>@ViewData["FortuneUrl"]</h5>
+        <h5><b>Service endpoint sent back from discovery service</b></h5>
+        <h5><a class="nav-link" href="@ViewData["FortuneDiscoveryUrl"]swagger" target="_blank">@ViewData["FortuneDiscoveryUrl"]</a></h5>
+        <div class="panel-group">
+            <a class="btn btn-primary" asp-area="" asp-controller="Services" asp-action="Index">Refresh</a>
+            <a class="btn btn-primary" asp-area="" asp-controller="Services" asp-action="ResetServiceStats">Reset Stats</a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <canvas id="myChart" width="600" height="400"></canvas>
+        <script>
+            var ctx = document.getElementById("myChart");
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: @Html.Raw(Model.GetServiceInstanceLabels()),
+                    datasets: [{
+                        label:'Instance Counts',
+                        data: @Html.Raw(Model.GetServiceInstanceValues()),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+    </div>
+    </div>
+    <div class="media-object"><hr /></div>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Web API Services found through discovery</h4>
+            <p>Service discovery helps applications find and access available endpoints through a scalable and resilient directory.</p>
+            <ul>
+                @if (Model.discoveryClient != null)
+                {
+                    @foreach (var service in Model.discoveryClient.Services)
+                    {
+                        <li>@service</li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h4>Steeltoe support for .NET Framework</h4>
+            <p>Pivotal Application Services can support services written using .NET Framework. .NET Framework applications can also implement Cloud Native Patterns using Steeltoe.</p>
+            @*<a class="btn btn-primary" href="@Model.ConfigData.SwaggerUrl" target="_blank">Fortune Service .NET4.6 using Swagger &raquo;</a>*@
+            <hr />
+            <h4>Bound services for this application</h4>
+            <p>Binding to services is one way .NET applications can integrate with functionality required for business applications. Developers can take advantage of services made available through the platform or continue to use existing services.</p>
+            <ul>
+                @foreach (var service in Model.CloudFoundryServices.ServicesList)
+                {
+                    <li>@service.Label: @service.Name</li>
+                }
+            </ul>
+            <hr />
+        </div>
+        <div class="col-md-4">
+            <h4>Last 10 Fortunes stored in Redis cache</h4>
+            <ul>
+                @foreach (var fortune in Model.FortuneHistory)
+                {
+                    <li>@fortune</li>
+                }
+            </ul>
+        </div>
+    </div>

@@ -1,0 +1,93 @@
+﻿@using Pivotal.Utilities;
+@using WebUICore.ViewModels;
+
+@model CloudFoundryViewModel
+@{
+    ViewData["Title"] = "Configuration";
+}
+<div class="panel-heading">
+    <div class="media">
+        <div class="media-body">
+            <h2 class="media-heading">Configuration for .NET</h2>
+        </div>
+    </div>
+    <h3>Managing configuration information for applications</h3>
+    <p>Strict separation of config from code has become a cloud mandate, but that begs the question, where do you put it? And once you’ve externalized your config from your app, how do you track who changed what, when? Steeltoe leverages Spring Cloud Config Server so you can store your app’s config in a centralized, version-controlled git repo and then load it at runtime.</p>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <h4><b>Configuration Sources</b></h4>
+        <center>
+            <a class="btn btn-primary" href="@(Model.ConfigData.AppBaseUrl)@ViewData["appId"]/settings" target="_blank">Environment Variables</a>
+            <a class="btn btn-primary" href="@(Model.ConfigData.ManifestUrl)" target="_blank">Manifest File</a>
+            <a class="btn btn-primary" href="@(Model.ConfigData.GithubRepoUrl)/tree/master/Fortune-Teller-UI/appsettings.json" target="_blank">appsettings.json</a>
+            <a class="btn btn-primary" href="@Model.ConfigData.ConfigServerUrl" target="_blank">Config Server</a>
+            <a class="btn btn-primary" href="@Model.ConfigData.ConfigRepoUrl" target="_blank">Config Repo</a>
+            <a class="btn btn-primary" href="@(Model.ConfigData.AppBaseUrl)@ViewData["appId"]/settings" target="_blank">Build Info</a>
+            <a class="btn btn-primary" href="@(Model.ConfigData.GithubRepoUrl)/blob/master/Fortune-Teller-UI/git.properties" target="_blank">Git Properties</a>
+        </center>
+    </div>
+</div>
+<div class="media-object"><hr /></div>
+<div class="row">
+    <div class="col-lg-12">
+        <h4><b>Application Details</b></h4>
+        <h5>App ID: @ViewData["appId"]</h5>
+        <h5>App Name: @ViewData["appName"]     <b>&laquo;--<i>This name is used for loading configurations if the config name is not set below</i></b></h5>
+        <h5>App URI: @ViewData["uri0"]</h5>
+        <h5>Disk Quota: @ViewData["disk"]</h5>
+    </div>
+</div>
+<div class="media-object"><hr /></div>
+<div class="row">
+    <div class="col-lg-12">
+        <h4><b>Config Server Settings</b></h4>
+        @*<h4><a class="btn btn-default" asp-area="" asp-controller="Workshop" asp-action="Reload">Reload</a></h4>*@
+        <h5>spring:cloud:config:uri = @ViewData["Uri"]</h5>
+        <h5>spring:cloud:config:enabled = @ViewData["Enabled"]</h5>
+        <h5>spring:cloud:config:env = @ViewData["Environment"]     <b>&laquo;--<i>Environment name that has been loaded</i></b></h5>
+        <h5>spring:cloud:config:failFast = @ViewData["FailFast"]</h5>
+        <h5>spring:cloud:config:name = @ViewData["Name"]     <b>&laquo;--<i>Change this value to the same application name</i></b></h5>
+        <h5>spring:cloud:config:label = @ViewData["Label"]</h5>
+        <h5>spring:cloud:config:username = @ViewData["Username"]</h5>
+        <h5>spring:cloud:config:password = @ViewData["Password"]</h5>
+        <h5>spring:cloud:config:access_token_uri = @ViewData["AccessTokenUri"]</h5>
+        <h5>spring:cloud:config:client_id = @ViewData["ClientId"]</h5>
+        <h5>spring:cloud:config:client_secret = @ViewData["ClientSecret"]</h5>
+        <h5>spring:cloud:config:validate_certificates = @ViewData["ValidateCertificates"]</h5>
+    </div>
+</div>
+<div class="media-object"><hr /></div>
+<div class="row">
+    <div class="col-lg-12">
+        <h4><b>Config Server Data</b></h4>
+        <p>Configuration data loaded from a configuration server can be reloaded without having to push a new build or restart the application.</p>
+        <a class="btn btn-primary" asp-area="" asp-controller="Workshop" asp-action="ReloadConfig">Reload</a>
+        <h5><b>AppBaseUrl</b> = @Model.ConfigData.AppBaseUrl</h5>
+        <h5><b>AppsManagerUrl</b> = @Model.ConfigData.AppsManagerUrl</h5>
+        <h5><b>ConfigRepoUrl</b> = @Model.ConfigData.ConfigRepoUrl</h5>
+        <h5><b>ConfigServerUrl</b> = @Model.ConfigData.ConfigServerUrl</h5>
+        <h5><b>EurekaDashboardUrl</b> = @Model.ConfigData.EurekaDashboardUrl</h5>
+        <h5><b>ExchangeUrl</b> = @Model.ConfigData.ExchangeUrl</h5>
+        <h5><b>GithubRepoUrl</b> = @Model.ConfigData.GithubRepoUrl</h5>
+        <h5><b>HystrixDashboardUrl</b> = @Model.ConfigData.HystrixDashboardUrl</h5>
+        <h5><b>ManifestUrl</b> = @Model.ConfigData.ManifestUrl</h5>
+        <h5><b>MarketplaceUrl</b> = @Model.ConfigData.MarketplaceUrl</h5>
+        <h5><b>OpsManagerUrl</b> = @Model.ConfigData.OpsManagerUrl</h5>
+        <h5><b>PCFMetricsUrl</b> = @Model.ConfigData.PCFMetricsUrl</h5>
+        <h5><b>PipelineUrl</b> = @Model.ConfigData.PipelineUrl</h5>
+        <h5><b>SwaggerUrl</b> = @Model.ConfigData.SwaggerUrl</h5>
+    </div>
+</div>
+<div class="media-object"><hr /></div>
+<div class="row">
+    <div class="col-lg-12">
+        <h4><b>Connection Strings</b></h4>
+        <p>Connection strings can be loaded from different sources. In this example, if you bind a User Provided Service with a name that matches the connection string name, the connection string will be loaded from the bound service. The User Provided Service must contain a property named "connectionstring".</p>
+        @foreach (var s in Model.ConnectionStrings)
+        {
+            <h5><b>Name: @s.Key</b></h5>
+            <h5><b>Connection String:</b> @s.Value</h5>
+        }
+    </div>
+</div>
