@@ -8,7 +8,6 @@
 
 <div class="row">
     <div class="list-unstyled">
-
         <h3>The Twelve Factors</h3>
         <ul>
             <li>
@@ -30,7 +29,7 @@
                 <h4>IV. Backing services: Treat backing services as attached resources</h4>
                 Resources can be attached to and detached from deploys at will. For example, if the app’s database is misbehaving due to a hardware issue, the app’s administrator might spin up a new database server restored from a recent backup. The current production database could be detached, and the new database attached – all without any code changes. Bind services to applications to inject the required configuration data into the environment at runtime. This can also help eliminate the need for different configuration files to support multiple environments.<br />
                 <a class="btn btn-primary" asp-area="" asp-controller="Services" asp-action="Index">Service Discovery</a>&nbsp;
-                <a class="btn btn-primary" href="https://apps.sys.islands.cloud/organizations/893f5f47-b8d5-4be3-a562-937b612eb564/spaces/39cd6817-23a4-4e31-bf16-44d051cfe6be/applications/30012359-e4eb-4ad6-a79d-a7eb79d56471/marketplace">Services Marketplace</a>
+                <a class="btn btn-primary" href="@Model.ConfigData.MarketplaceUrl" target="_blank">Services Marketplace</a>
             </li>
             <li>
                 <h4>V. Build, release, run: Strictly separate build and run stages</h4>
@@ -48,7 +47,7 @@
             <li>
                 <h4>VIII. Concurrency: Scale out via the process model</h4>
                 The share-nothing, horizontally partitionable nature of twelve-factor app processes means that adding more concurrency is a simple and reliable operation. PCF can handle autoscaling based on metrics defined by the developers.<br />
-                <a class="btn btn-primary" href="https://apps.sys.islands.cloud/organizations/893f5f47-b8d5-4be3-a562-937b612eb564/spaces/39cd6817-23a4-4e31-bf16-44d051cfe6be/applications/d63f8570-e5a9-4186-959e-256633be7fb8">Application/Services Scaling</a>
+                <a class="btn btn-primary" href="@(Model.ConfigData.AppBaseUrl)@Model.CloudFoundryApplication.ApplicationId" target="_blank">Application/Services Scaling</a>
             </li>
             <li>
                 <h4>IX. Disposability: Maximize robustness with fast startup and graceful shutdown</h4>
@@ -58,18 +57,25 @@
             <li>
                 <h4>X. Dev/prod parity: Keep development, staging, and production as similar as possible</h4>
                 Differences between backing services mean that tiny incompatibilities crop up, causing code that worked and passed tests in development or staging to fail in production. PCF provides for the ability to deploy applications in a manner that can help developers build and test applications that mimic the production environment.<br />
-                <a class="btn btn-primary" href="https://apps.sys.islands.cloud/">Using Orgs and Spaces</a>
+                <a class="btn btn-primary" href="@Model.ConfigData.AppsManagerUrl" target="_blank">Using Orgs and Spaces</a>
             </li>
             <li>
                 <h4>XI. Logs: Treat logs as event streams</h4>
                 A twelve-factor app never concerns itself with routing or storage of its output stream. It should not attempt to write to or manage logfiles. PCF allows developers to continue to utilize their existing logging frameworks and allow for high performance, non-blocking log streaming.<br />
-                <a class="btn btn-primary" href="https://apps.sys.islands.cloud/organizations/893f5f47-b8d5-4be3-a562-937b612eb564/spaces/39cd6817-23a4-4e31-bf16-44d051cfe6be/applications/30012359-e4eb-4ad6-a79d-a7eb79d56471/logs">Application Logging</a>
+                <a class="btn btn-primary" href="@(Model.ConfigData.AppBaseUrl)@Model.CloudFoundryApplication.ApplicationId/logs" target="_blank">Application Logging</a>
             </li>
             <li>
                 <h4>XII. Admin processes: Run admin/management tasks as one-off processes</h4>
                 One-off admin processes should be run in an identical environment as the regular long-running processes of the app. They run against a release, using the same codebase and config as any process run against that release. Admin code must ship with application code to avoid synchronization issues. PCF provides this ability through running tasks using the same containerization as the application.<br />
-                <a class="btn btn-primary" href="https://apps.sys.islands.cloud/organizations/893f5f47-b8d5-4be3-a562-937b612eb564/spaces/39cd6817-23a4-4e31-bf16-44d051cfe6be/applications/30012359-e4eb-4ad6-a79d-a7eb79d56471/tasks">Running Admin Tasks</a>
+                <a class="btn btn-primary" href="@(Model.ConfigData.AppBaseUrl)@Model.CloudFoundryApplication.ApplicationId/tasks" target="_blank">Running Admin Tasks</a>
             </li>
+        </ul>
+    </div>
+    <div>
+        <h3>Additional Resources</h3>
+        <ul>
+            <li><a href="@Model.ConfigData.GithubRepoUrl" target="_blank">Demo Source</a></li>
+            <li><a href="steeltoe.io" target="_blank">steeltoe.io</a></li>
         </ul>
     </div>
 </div>
