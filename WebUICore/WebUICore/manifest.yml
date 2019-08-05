@@ -10,4 +10,4 @@ applications:
   - myDiscoveryService
   - myHystrixService
   - myRedisService
-  stack: cflinuxfs2
+
