@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.4" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Pivotal.Extensions.Configuration.ConfigServerCore" Version="2.1.0" />
     <PackageReference Include="Pivotal.Discovery.ClientCore" Version="2.1.0" />
     <!--<PackageReference Include="Steeltoe.CloudFoundry.Connector.EFCore" Version="2.0.0-rc1" />-->
